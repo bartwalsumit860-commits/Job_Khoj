@@ -16,7 +16,7 @@ app.use(express.json());//data will be in json
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser());
 const corsOptions = {
-    origin:'http://localhost:5137',
+    origin:'http://localhost:5173',
     credentials:true
 }
 app.use(cors(corsOptions));
