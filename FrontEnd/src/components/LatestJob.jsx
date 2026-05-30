@@ -1,4 +1,3 @@
-import React from 'react'
 import LatestJobCards from './LatestJobCards';
 import { useSelector } from 'react-redux';
 
@@ -12,7 +11,7 @@ const LatestJob = () => {
                 {/* job cards  */}
                 <div className="grid grid-cols-3 gap-3">
                     {
-                        allJobs.length === 0 ?<span>No job Avilable</span>: allJobs.slice(0,6).map((job,index)=> <LatestJobCards key ={job._id} job = {job}/>)
+                        allJobs.length === 0 ?<span>No job Avilable</span>: allJobs.slice(0,6).map((job)=> <LatestJobCards key ={job._id} job = {job}/>)
                     }
                 </div>
 

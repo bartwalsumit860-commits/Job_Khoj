@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
-import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
+import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { USER_API_ENDPOINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
-import { DiamondPercent, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { setLoading, setUser } from '@/redux/authSlice'
-import store from '@/redux/store'
 
 
 const Login = () => {

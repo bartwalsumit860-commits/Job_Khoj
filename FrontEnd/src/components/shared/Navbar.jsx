@@ -6,19 +6,13 @@ import {
 
 import {
     Avatar,
-    AvatarBadge,
-    AvatarFallback,
-    AvatarGroup,
-    AvatarGroupCount,
     AvatarImage,
 } from "@/components/ui/avatar"
 
-import React from 'react';
 import { Button } from "../ui/button";
 import { LogOut, User2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import store from '@/redux/store';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { USER_API_ENDPOINT } from '@/utils/constant';

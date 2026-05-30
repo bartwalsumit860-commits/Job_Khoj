@@ -1,4 +1,3 @@
-import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
 import { Badge } from './ui/badge'
 
@@ -21,8 +20,8 @@ const ApplicationJobTable = () => {
 
         <TableBody>
           {
-            [1,2,3].map((job,index)=>(
-              <TableRow key="index">
+            [1,2,3].map((job)=>(
+              <TableRow key={job}>
                 <TableCell>21-05-2026</TableCell>
                 <TableCell>Full Stack Developer</TableCell>
                 <TableCell>Company private Limited</TableCell>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { Label } from './ui/label'
 const filterData = [
@@ -23,13 +22,13 @@ const FilterCard = () => {
                 <hr className="mt-3" />
                 <RadioGroup>
                     {
-                        filterData.map((data, index) => (
-                            <div>
+                        filterData.map((data) => (
+                            <div key={data.filterType}>
                                 <h1 className='font-bold text-lg'>{data.filterType}</h1>
                                 {
-                                    data.array.map((arr, index) => {
+                                    data.array.map((arr) => {
                                         return (
-                                            <div className='flex space-y-2 items-center space-x-2'>
+                                            <div key={arr} className='flex space-y-2 items-center space-x-2'>
                                                 <RadioGroupItem value={arr}/>
                                                 <Label>{arr}</Label>
                                             </div>

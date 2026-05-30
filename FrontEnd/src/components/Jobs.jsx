@@ -1,4 +1,3 @@
-import React from 'react'
 import Navbar from './shared/Navbar'
 import FilterCard from './FilterCard'
 import Job from './Job'
@@ -19,7 +18,7 @@ const Jobs = () => {
                         <div className="flex-1 h-[88vh] overflow-y-auto pb-5">
                             <div className="grid grid-cols-3 gap-4">
                                 {
-                                    allJobs.map((job, index) => (
+                                    allJobs.map((job) => (
                                         <div key={job._id}>
                                             <Job  job = {job}/>
                                         </div>))

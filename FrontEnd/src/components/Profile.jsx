@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Navbar from './shared/Navbar'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
@@ -7,7 +7,6 @@ import { Badge } from './ui/badge';
 import { Label } from './ui/label'
 import ApplicationJobTable from './ApplicationJobTable'
 import UpdateProfileDialog from './UpdateProfileDialog'
-import store from '@/redux/store'
 import { useSelector } from 'react-redux'
 
 
