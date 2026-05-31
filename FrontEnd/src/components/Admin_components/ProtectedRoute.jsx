@@ -12,7 +12,7 @@ const ProtectedRoute = ({children}) => {
         if(user == null || user.role != 'recruiter'){
             navigate('/');
         }
-    })
+    },[])
   return (
     <>
     {children}
@@ -20,4 +20,4 @@ const ProtectedRoute = ({children}) => {
   )
 }
 
-export default ProtectedRoute
+export default ProtectedRoute;
