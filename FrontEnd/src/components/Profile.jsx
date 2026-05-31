@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from './shared/Navbar'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
@@ -8,23 +8,34 @@ import { Label } from './ui/label'
 import ApplicationJobTable from './ApplicationJobTable'
 import UpdateProfileDialog from './UpdateProfileDialog'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 
 
 const Profile = () => {
-  const isHavingResume = true;
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const { user } = useSelector(store => store.auth)
+  const isHavingResume = Boolean(user?.profile?.resume);
+  const isStudent = user?.role === "student";
 
-  console.log(user)
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [navigate, user]);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div>
       <Navbar />
-      <div className='max-w-4xl mx-auto border-gray-200 rounded-2xl my-5 p-8 bg-white border'>
-        <div className='flex justify-between'>
+      <div className='mx-auto my-5 max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm'>
+        <div className='flex flex-col sm:flex-row justify-between gap-5'>
           <div className="flex items-center gap-5">
             <Avatar className="h-24 w-24">
               <AvatarImage src={user?.profile?.profilePhoto}
@@ -53,7 +64,7 @@ const Profile = () => {
           <h1 className='text-lg text-blue-800 font-medium mb-4'>Skills</h1>
           <div className="flex items-center gap-2">
             {
-              user?.profile?.skills.length !== 0 ? user?.profile?.skills.map((skill, index) =>
+              user?.profile?.skills?.length > 0 ? user?.profile?.skills?.map((skill, index) =>
                 <Badge key={index} variant='outline'>{skill}</Badge>) : <div> <h2>N/A</h2></div>
             }
           </div>
@@ -70,9 +81,15 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className='max-w-4xl mx-auto'>
+      <div className='mx-auto max-w-4xl px-1'>
         <h1 className='font-bold text-lg'>Applied Jobs</h1>
-        <ApplicationJobTable />
+        {isStudent ? (
+          <ApplicationJobTable />
+        ) : (
+          <div className="mt-4 rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-slate-500">
+            Application tracking is available for student accounts only.
+          </div>
+        )}
       </div>
 
       <UpdateProfileDialog open={open} setOpen={setOpen} />

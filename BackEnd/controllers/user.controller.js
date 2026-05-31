@@ -69,6 +69,10 @@ export const register = async (req, res) => {
 
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Unable to register account",
+            success: false
+        });
     }
 }
 
@@ -125,13 +129,17 @@ export const login = async (req, res) => {
         }
 
         return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'strict' }).json({
-            message: `Welocme back ${user.fullname}`,
+            message: `Welcome back ${user.fullname}`,
             user,
             success: true
         })
     }
     catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Unable to login",
+            success: false
+        });
     }
 }
 
@@ -139,11 +147,15 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
     try {
         return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-            message: "Logout successfull",
+            message: "Logout successful",
             success: true
         })
     } catch (error) {
         console.log(error)
+        return res.status(500).json({
+            message: "Unable to logout",
+            success: false
+        });
     }
 }
 

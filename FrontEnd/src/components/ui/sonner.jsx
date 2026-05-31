@@ -1,15 +1,12 @@
-import { useTheme } from "next-themes"
 import { Toaster as Sonner } from "sonner";
 import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react"
 
 const Toaster = ({
   ...props
 }) => {
-  const { theme = "system" } = useTheme()
-
   return (
     <Sonner
-      theme={theme}
+      theme="light"
       className="toaster group"
       icons={{
         success: (
@@ -30,15 +27,19 @@ const Toaster = ({
       }}
       style={
         {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
-          "--border-radius": "var(--radius)"
+          "--normal-bg": "rgb(255 255 255)",
+          "--normal-text": "rgb(15 23 42)",
+          "--normal-border": "rgb(226 232 240)",
+          "--border-radius": "1rem"
         }
       }
       toastOptions={{
         classNames: {
-          toast: "cn-toast",
+          toast: "group toast group-[.toaster]:rounded-2xl group-[.toaster]:border group-[.toaster]:border-slate-200 group-[.toaster]:bg-white group-[.toaster]:text-slate-950 group-[.toaster]:shadow-2xl",
+          description: "group-[.toast]:text-slate-600",
+          title: "group-[.toast]:font-semibold",
+          actionButton: "group-[.toast]:bg-slate-900 group-[.toast]:text-white",
+          cancelButton: "group-[.toast]:bg-slate-100 group-[.toast]:text-slate-700",
         },
       }}
       {...props} />

@@ -7,11 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSingleJob } from '@/redux/jobSlice';
 import { APPLICATION_API_ENDPOINT, JOB_API_ENDPOINT } from '@/utils/constant';
 import { toast } from 'sonner';
+import Navbar from './shared/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const JobDescription = () => {
 
     // current logged in user
     const { user } = useSelector(store => store.auth);
+    const navigate = useNavigate();
 
     // redux dispatch
     const dispatch = useDispatch();
@@ -22,6 +25,7 @@ const JobDescription = () => {
 
     // get single job from redux
     const { singleJob } = useSelector(store => store.job);
+    const canApply = user?.role === "student";
 
     // check if user already applied
     const isInitialyApplied = singleJob?.applications?.some(
@@ -32,6 +36,17 @@ const JobDescription = () => {
 
     // apply job handler
     const applyJobHandler = async () => {
+        if (!user) {
+            toast.error("Please login as a student to apply");
+            navigate("/login");
+            return;
+        }
+
+        if (!canApply) {
+            toast.error("Only students can apply for jobs");
+            return;
+        }
+
         try {
 
             const res = await axios.get(
@@ -52,13 +67,14 @@ const JobDescription = () => {
                 };
 
                 dispatch(setSingleJob(updateSingleJob));
+                setIsApplied(true);
 
                 toast.success(res.data.message);
             }
 
         } catch (error) {
             console.log(error);
-            toast.error(error?.response?.data?.message);
+            toast.error(error?.response?.data?.message || "Unable to apply for this job");
         }
     };
 
@@ -87,11 +103,11 @@ const JobDescription = () => {
                         )
                     );
 
-                    toast.success(res.data.message);
                 }
 
             } catch (error) {
                 console.log(error);
+                toast.error(error?.response?.data?.message || "Unable to load job details");
             }
         };
 
@@ -100,14 +116,17 @@ const JobDescription = () => {
     }, [jobId, dispatch, user?._id]);
 
     return (
-        <div className='max-w-7xl mx-auto my-10'>
+        <>
+        <Navbar />
+        <div className='max-w-7xl mx-auto my-10 px-4'>
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
 
                 <div>
-                    <h1 className="font-bold text-xl">
+                    <h1 className="font-bold text-2xl">
                         {singleJob?.title}
                     </h1>
+                    <p className="text-gray-600 mt-1">{singleJob?.company?.company_name}</p>
 
                     <div className="flex gap-5 items-center my-4">
 
@@ -136,17 +155,21 @@ const JobDescription = () => {
                 </div>
 
                 <Button
-                    onClick={!isApplied ? applyJobHandler : null}
-                    disabled={isApplied}
+                    onClick={applyJobHandler}
+                    disabled={isApplied || !canApply}
                     className={`rounded-lg p-2 ${isApplied
                             ? 'bg-green-500 cursor-not-allowed'
-                            : 'bg-blue-700 hover:bg-blue-800'
+                            : !canApply
+                                ? 'bg-slate-500 cursor-not-allowed'
+                                : 'bg-blue-700 hover:bg-blue-800'
                         }`}
                 >
                     {
                         isApplied
                             ? 'Already Applied'
-                            : 'Apply Now'
+                            : !canApply
+                                ? 'Students Only'
+                                : 'Apply Now'
                     }
                 </Button>
 
@@ -182,7 +205,7 @@ const JobDescription = () => {
                 <h1 className="font-bold my-1">
                     Experience :
                     <span className="pl-4 font-normal text-gray-800">
-                        {singleJob?.experience} year
+                        {singleJob?.experienceLevel} year
                     </span>
                 </h1>
 
@@ -209,6 +232,7 @@ const JobDescription = () => {
 
             </div>
         </div>
+        </>
     )
 }
 

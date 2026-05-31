@@ -20,9 +20,9 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     fullname: user?.fullname,
     email: user?.email,
     phoneNumber: user?.phoneNumber,
-    bio: user?.profile.bio,
-    skills: user?.profile.skills?.map(skill => skill),
-    file: user?.profile?.resume
+    bio: user?.profile?.bio || "",
+    skills: user?.profile?.skills?.join(", ") || "",
+    file: null
   });
 
 
@@ -75,13 +75,12 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
       setLoading(false);
     }
 
-    console.log(input);
   }
 
   return (
     <div>
-      <Dialog open={open}>
-        <DialogContent className='max-w-105' onInteractOutside={() => setOpen(false)}>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className='max-w-xl' onInteractOutside={() => setOpen(false)}>
           <DialogHeader>
             <DialogTitle>Update Profile</DialogTitle>
           </DialogHeader>
@@ -147,7 +146,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             <DialogFooter>
               {
                 loading ?
-                  <Button className='w-full my-4 p-2'>
+                  <Button className='w-full my-4 p-2' type='button' disabled>
                     <Loader2 className='h-4 w-4 animate-spin' />
                   </Button> : <Button className='w-full my-1 p-2' type='submit'>Update</Button>
               }
