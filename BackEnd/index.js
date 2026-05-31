@@ -9,12 +9,15 @@ import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 import path from "path";
+import fs from "fs";
 
 dotenv.config({})
 const app = express();
 
 //path
 const _dirname = path.resolve();
+const frontendDistPath = path.join(_dirname, "FrontEnd", "dist");
+const frontendIndexPath = path.join(frontendDistPath, "index.html");
 
 //middlewere
 app.use(express.json());//data will be in json
@@ -45,10 +48,12 @@ app.use("/api/v1/company",companyRoute);
 app.use("/api/v1/job",jobRoute);
 app.use("/api/v1/application",applicationRoute)
 
-app.use(express.static(path.join(_dirname, "/frontend/dist")))
-app.use((req, res) => {
-    res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
-});
+if (fs.existsSync(frontendDistPath)) {
+    app.use(express.static(frontendDistPath));
+    app.use((req, res) => {
+        res.sendFile(frontendIndexPath);
+    });
+}
 
 
 const startServer = async () => {
